@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+<script src="js/jquery-1.8.0.min.js" type="text/javascript"></script>
+<button style="width: 100px; height: 30px;margin: 100px;" id="btn">登录</button>
+<button style="width: 100px; height: 30px;margin: 100px;" id="btn1">登录1</button>
+
+<script type="text/javascript">
+    $(function () {
+        var json = {"result": "1","data": "request success","msg": "请求成功asd"};
+        var data = "15012551396";
+        $("#btn").click(function () {
+            $.ajax({
+                url:"appUser/"+data,
+                type:"get",
+                success:function (data) {
+                    var str = JSON.stringify(data);
+                    alert(str);
+                }
+            })
+        });
+
+        $("#btn1").click(function () {
+            $.ajax({
+                url:"http://192.168.0.101:8080/ssmDemo/act/getData",
+                type:"POST",
+                dataType: "json",
+                contentType:"application/json;charset=UTF-8",
+                data:JSON.stringify(json),
+                success:function (data) {
+                    var str = JSON.stringify(data);
+                    var obj = JSON.parse(str);
+                    alert(obj.data);
+                }
+            })
+        })
+    })
+</script>
+
+    asdsad
+
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winfo.ssm.dao.AppUserDao">
+    <select id="queryAllAppUser" resultType="AppUser">
+        SELECT ID,
+        USERNAME,
+        PASSWORD,
+        REALNAME,
+        COMPANYID,
+        DEPARTID,
+        ROLEIDS,
+        POSITION,
+        TEL,
+        PHONENO,
+        EMAIL,
+        RMK,
+        STATUS,
+        ISDELETED,
+        ADDTIME,
+        MMSI
+        FROM
+        APPUSER
+    </select>
+
+    <select id="queryByUserName" resultType="AppUser">
+        SELECT
+        ID,
+        USERNAME,
+        PASSWORD,
+        REALNAME,
+        COMPANYID,
+        DEPARTID,
+        ROLEIDS,
+        POSITION,
+        TEL,
+        PHONENO,
+        EMAIL,
+        RMK,
+        STATUS,
+        ISDELETED,
+        ADDTIME,
+        MMSI
+        FROM
+        APPUSER
+        WHERE
+        USERNAME = #{userName}
+    </select>
+</mapper>

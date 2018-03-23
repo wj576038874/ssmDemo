@@ -1,0 +1,197 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.winfo.ssm</groupId>
+    <artifactId>ssmDemo</artifactId>
+    <packaging>war</packaging>
+    <properties>
+        <!--junit测试版本-->
+        <junit.version>4.12</junit.version>
+        <!--logback日志实现类版本-->
+        <logback.version>1.1.1</logback.version>
+        <!--mysql数据库驱动版本-->
+        <mysql.version>5.1.37</mysql.version>
+        <!--oracle数据库驱动版本-->
+        <oracle.version>12.1.0.2.0</oracle.version>
+        <!--c3p0数据库连接池版本-->
+        <c3p0.version>0.9.1.2</c3p0.version>
+        <!--mybatis版本-->
+        <mybatis.version>3.3.0</mybatis.version>
+        <!--mybatis和spring整合版本-->
+        <mybatis-spring.version>1.3.2</mybatis-spring.version>
+        <!--taglibs版本-->
+        <standrad-version>1.1.2</standrad-version>
+        <!--jstl标签库版本-->
+        <jstl.version>1.2</jstl.version>
+        <!--jackjson版本-->
+        <jackson.version>2.9.4</jackson.version>
+        <!--servlet-api版本-->
+        <servlet-api.version>4.0.0</servlet-api.version>
+        <!--spring版本-->
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <!--<spring.version>4.1.7.RELEASE</spring.version>-->
+        <!--map工具类版本-->
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <!--json工具类版本-->
+        <fastjson.version>1.2.47</fastjson.version>
+
+    </properties>
+    <version>1.0-SNAPSHOT</version>
+    <name>ssmDemo Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <!--junit测试-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 1.日志 -->
+        <!-- 实现slf4j接口并整合 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!-- 2.数据库 -->
+        <!-- 2.1 mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!--2.2 oracle-->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${oracle.version}</version>
+        </dependency>
+
+        <!--2.3 数据库连接池-->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0.version}</version>
+        </dependency>
+
+        <!--3. DAO: MyBatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
+        <!-- DAO: MyBatis-Spring -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis-spring.version}</version>
+        </dependency>
+
+        <!-- 4.Servlet web -->
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${standrad-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+        </dependency>
+
+        <!-- 4.Spring -->
+        <!-- 1)Spring核心 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- 2)Spring DAO层 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- 3)Spring web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- 4)Spring test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Map工具类 -->
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
+        </dependency>
+
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <finalName>ssmDemo</finalName>
+    </build>
+</project>

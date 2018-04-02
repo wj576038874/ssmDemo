@@ -10,23 +10,78 @@
     <!-- 1.配置数据库相关参数properties的属性：${url} -->
     <context:property-placeholder location="classpath:configs/jdbc.properties"/>
 
-    <!--2.数据库连接池-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <!--配置连接池属性-->
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+    <!--2.c3p0数据库连接池-->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+    <!--&lt;!&ndash;配置连接池属性&ndash;&gt;-->
+    <!--<property name="driverClass" value="${jdbc.driver}"/>-->
+    <!--<property name="jdbcUrl" value="${jdbc.url}"/>-->
+    <!--<property name="user" value="${jdbc.username}"/>-->
+    <!--<property name="password" value="${jdbc.password}"/>-->
 
-        <!--c3p0连接私有属性-->
-        <property name="maxPoolSize" value="30"/>
-        <property name="minPoolSize" value="10"/>
-        <!--关闭连接后不自动commit-->
-        <property name="autoCommitOnClose" value="false"/>
-        <!--获取连接超时时间-->
-        <property name="checkoutTimeout" value="10000"/>
-        <!--获取连接超时的重试次数-->
-        <property name="acquireRetryAttempts" value="2"/>
+    <!--&lt;!&ndash;c3p0连接私有属性&ndash;&gt;-->
+    <!--<property name="maxPoolSize" value="30"/>-->
+    <!--<property name="minPoolSize" value="10"/>-->
+    <!--&lt;!&ndash;关闭连接后不自动commit&ndash;&gt;-->
+    <!--<property name="autoCommitOnClose" value="false"/>-->
+    <!--&lt;!&ndash;获取连接超时时间&ndash;&gt;-->
+    <!--<property name="checkoutTimeout" value="10000"/>-->
+    <!--&lt;!&ndash;获取连接超时的重试次数&ndash;&gt;-->
+    <!--<property name="acquireRetryAttempts" value="2"/>-->
+    <!--</bean>-->
+
+    <!--2.阿里巴巴Druil数据库连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" lazy-init="false">
+        <!--连接数据库的url，不同数据库不一样。例如：
+            mysql : jdbc:mysql://10.20.153.104:3306/druid2
+            oracle : jdbc:oracle:thin:@10.20.149.85:1521:ocnauto-->
+        <property name="url" value="${jdbc.url}"/>
+        <!--这一项可配可不配，如果不配置drui  会根据url自动识别dbType，然后选择相应的driverClassName 根据url自动识别-->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <!--连接数据库的用户名-->
+        <property name="username" value="${jdbc.username}"/>
+        <!--连接数据库的密码。如果你不希望密码直接写在配置文件中，
+            可以使用ConfigFilter。详细看这里：
+            https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter-->
+        <property name="password" value="${jdbc.password}"/>
+        <!--属性类型是字符串，通过别名的方式配置扩展插件，
+            常用的插件有：
+            监控统计用的filter:stat
+            日志用的filter:log4j
+            防御sql注入的filter:wall-->
+        <property name="filters" value="stat"/>
+        <!--最大连接池数量-->
+        <property name="maxActive" value="20"/>
+        <!--初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时-->
+        <property name="initialSize" value="1"/>
+        <!--获取连接时最大等待时间，单位毫秒。配置了maxWait之后，
+            缺省启用公平锁，并发效率会有所下降，
+            如果需要可以通过配置useUnfairLock属性为true使用非公平锁。-->
+        <property name="maxWait" value="60000"/>
+        <!--	最小连接池数量-->
+        <property name="minIdle" value="1"/>
+        <!--有两个含义：
+            1) Destroy线程会检测连接的间隔时间
+            2) testWhileIdle的判断依据，详细看testWhileIdle属性的说明-->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!--连接数据库的用户名-->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <!--如果不是mysql, 且数据库与服务器之间的通信稳定可靠, 可以不写validationQuery和testWhileIdle. 因为这两个主要是治mysql 8小时断连接的病-->
+        <!--<property name="validationQuery" value="SELECT 'x'"/>-->
+        <!--<property name="testWhileIdle" value="true"/>-->
+
+        <!--申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能-->
+        <property name="testOnBorrow" value="false"/>
+        <!--归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能-->
+        <property name="testOnReturn" value="false"/>
+        <!--是否缓存preparedStatement，也就是PSCache。
+            PSCache对支持游标的数据库性能提升巨大，比如说oracle。
+            在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。
+            作者在5.5版本中使用PSCache，通过监控界面发现PSCache有缓存命中率记录，
+            该应该是支持PSCache。-->
+        <property name="poolPreparedStatements" value="true"/>
+        <!--连接数据库的用户名-->
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
     </bean>
 
     <!-- 3.配置SqlSessionFactory对象 -->
@@ -44,9 +99,9 @@
     <!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描Dao接口包 -->
-        <property name="basePackage" value="com.winfo.ssm.dao" />
+        <property name="basePackage" value="com.winfo.ssm.dao"/>
     </bean>
 
 </beans>
